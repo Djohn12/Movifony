@@ -1,14 +1,26 @@
 <?php
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
 declare(strict_types=1);
 
 namespace Movifony\Entity;
 
+<<<<<<< HEAD
+/** 
+ * Interface MovieInterface
+ */
+
+ interface MovieInterface
+ {
+=======
 /**
  * Interface MovieInterface
  */
 interface MovieInterface
 {
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
     /**
      * @return string
      */
@@ -18,4 +30,8 @@ interface MovieInterface
      * @param string $title
      */
     public function setTitle(string $title): void;
+<<<<<<< HEAD
+ }
+=======
 }
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22

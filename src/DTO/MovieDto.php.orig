@@ -5,23 +5,44 @@ declare(strict_types=1);
 namespace Movifony\DTO;
 
 /**
+ * Class MovieDto
  * Handle raw data from IMDB import file
  *
  * @author Corentin Bouix <cbouix@clever-age.com>
  */
 class MovieDto
 {
+<<<<<<< HEAD
+    /**
+     * @var string
+     */
+    private string $title;
+
+    /**
+     * @var string
+     */
+    private string $identifier;
+
+    /**
+=======
     private string $identifier;
     private string $title;
 
     /**
      * @param string $identifier
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
      * @param string $title
+     * @param string $identifier
      */
+<<<<<<< HEAD
+    public function __construct(string $title, string $identifier)
+=======
     public function __construct(string $identifier, string $title)
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
     {
         $this->identifier = $identifier;
         $this->title = $title;
+        $this->identifier = $identifier;
     }
 
     /**
@@ -38,5 +59,13 @@ class MovieDto
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
     }
 }

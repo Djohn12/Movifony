@@ -8,15 +8,70 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Movifony\DTO\MovieDto;
 use Movifony\Entity\ImdbMovie;
+<<<<<<< HEAD
+use Movifony\Factory\ImdbFactory;
+use Doctrine\Persistence\ManagerRegistry;
+=======
 use Movifony\Factory\ImbdFactory;
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
 
 /**
  * Class ImdbMovieImporter
- *
+ * 
+ * 
  * @author Corentin Bouix <cbouix@clever-age.com>
  */
 class ImdbMovieImporter implements ImporterInterface
 {
+<<<<<<< HEAD
+    /**
+     * @var ManagerRegistry $managerRegistry
+     */
+    protected $managerRegistry;    
+
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+    /** 
+     * @inheritDoc
+     */
+    public function read(array $data): MovieDto {
+        return new MovieDto($data['title']);
+    }
+    
+    /** 
+     * @inheritDoc
+     */
+    public function process(MovieDto $movieDto): ImdbMovie
+    {
+        return ImdbFactory::createMovie($movieDto);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function import(ImdbMovie $movie): bool
+    {
+        $om = $this->managerRegistry->getManagerForClass(ImdbMovie::class);
+        if (!$om)
+        {
+            // throw new Exception("Can't find any manager for Imdb");
+            return false;
+        }
+        $om->persist($movie);
+        $om->flush();
+        return true;
+    }
+    
+    /**
+     * Clear current manager
+     */
+    public function clear(): void
+    {
+        $this->managerRegistry->getManager()->clear();
+=======
     protected ManagerRegistry $managerRegistry;
 
     /**
@@ -82,5 +137,6 @@ class ImdbMovieImporter implements ImporterInterface
     protected function getObjectManager(): ?ObjectManager
     {
         return $this->managerRegistry->getManagerForClass(ImdbMovie::class);
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
     }
 }

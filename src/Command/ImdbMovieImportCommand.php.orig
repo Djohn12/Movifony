@@ -14,6 +14,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Movifony\Service\ImdbMovieImporter;
+use Movifony\DTO\MovieDto;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
+
 /**
  * Command that will import IMDB movies data from TSV file
  *
@@ -23,6 +28,33 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ImdbMovieImportCommand extends Command
 {
+<<<<<<< HEAD
+    /** @var string */
+    protected const MOVIE_FILENAME = 'data.tsv';
+
+    /** @var string */
+    protected static $defaultName = 'movifony:import:movies:imdb';
+
+    /** @var string */
+    protected string $projectDir;
+
+    /** @var ImdbMovieImporter */
+    protected ImdbMovieImporter $imdbMovieImporter;
+
+    /** @var LoggerInterface */
+    protected LoggerInterface $logger;
+
+    /** @var int */
+    protected const BATCH_SIZE=1000;
+
+    public function __construct(string $name = null, string $projectDir, ImdbMovieImporter $imdbMovieImporter, LoggerInterface $loggerInterface)
+    {
+        parent::__construct($name);
+        $this->projectDir = $projectDir;
+        $this->imdbMovieImporter = $imdbMovieImporter;
+        $this->logger = $loggerInterface;
+
+=======
     protected const MOVIE_FILENAME = 'title.akas.tsv';
     protected const BATCH_SIZE = 1000;
 
@@ -44,9 +76,12 @@ class ImdbMovieImportCommand extends Command
         $this->projectDir = $projectDir;
         $this->imdbImporter = $imdbMovieImporter;
         $this->logger = $logger;
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
     }
 
     /**
+     * 
+     * 
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
@@ -59,9 +94,27 @@ class ImdbMovieImportCommand extends Command
         $csv->setHeaderOffset(0);
         $csv->setDelimiter("\t");
 
+<<<<<<< HEAD
+        //$header = $csv->getHeader(); //returns the CSV header record
+=======
         /** @var MapIterator $records */
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
         $records = $csv->getRecords();
+        $progressBar = new ProgressBar($output, 2000);
+        $records->rewind();
 
+<<<<<<< HEAD
+        while($records->valid())
+        {
+            for ($i=0; $i < self::BATCH_SIZE; $i++) {
+                // $movieDto = new MovieDto($records->current()['title']);
+                // $movie = $this->imdbMovieImporter->process($movieDto);
+                $this->importFile($records->current());
+                $records->next();
+                $progressBar->advance();
+            }
+            $this->imdbMovieImporter->clear();
+=======
         $progressBar = new ProgressBar($output, 20000000);
 
         $records->rewind();
@@ -97,7 +150,33 @@ class ImdbMovieImportCommand extends Command
             $this->logger->info("Can't import movie with data:".json_encode($movieData, JSON_THROW_ON_ERROR, 512));
         } else {
             $this->logger->info("Successfully add movie with title: {$movie->getTitle()}");
+>>>>>>> 4681fe3884e0a9b85f350b36fe89f975d9241e22
         }
+        $progressBar->finish();
+        
+        
+        // foreach ($records as $record) {
+            //     // $state = $this->imdbMovieImporter->import($movie);
+            //     // if (!$state)
+            //     // {
+                //     //     $this->logger->warning("Can't import movie with title : {$movie->getTitle()}");
+                //     // }
+                //     $this->imdbMovieImporter->import($movie);
+                //     // $output->writeln(print_r($movie));
+                // }
+    }
+
+    /**
+     * import new Movie in database from record
+     * @param array $record (a row from tsv file)
+     * @return bool
+     */
+    public function importFile(array $record): bool
+    {
+        $movieDto = new MovieDto($record['title']);
+        $movie = $this->imdbMovieImporter->process($movieDto);
+        dump($movie);
+        return $this->imdbMovieImporter->import($movie);
     }
 
     /**
