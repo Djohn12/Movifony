@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Movifony\Service;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Movifony\DTO\MovieDto;
 use Movifony\Entity\ImdbMovie;
 use Movifony\Factory\ImdbFactory;
@@ -47,7 +48,7 @@ class ImdbMovieImporter implements ImporterInterface
      */
     public function import(ImdbMovie $movie): bool
     {
-        $om = $this->managerRegistry->getManagerForClass(ImdbMovie::class);
+        $om = $this->getManager();
         if (!$om)
         {
             // throw new Exception("Can't find any manager for Imdb");
@@ -65,4 +66,10 @@ class ImdbMovieImporter implements ImporterInterface
     {
         $this->managerRegistry->getManager()->clear();
     }
+
+    public function getManager(): ObjectManager
+    {
+        return $this->managerRegistry->getManagerForClass(ImdbMovie::class);
+    }
+
 }
