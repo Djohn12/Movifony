@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Movifony\DTO;
 
 /**
+ * Class MovieDto
  * Handle raw data from IMDB import file
  *
  * @author Corentin Bouix <cbouix@clever-age.com>

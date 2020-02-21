@@ -38,7 +38,7 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./public:/srv/app/public:ro
     ports:
-      - "80:80"
+      - "82:80"
 
   mysql:
     image: mariadb:10.1.26
@@ -50,7 +50,7 @@ services:
       MYSQL_USER: movifony_user
       MYSQL_PASSWORD: movifony_passwd
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   # This HTTP/2 proxy is not secure: it should only be used in dev
   h2-proxy:

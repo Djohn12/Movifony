@@ -10,6 +10,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Movifony\Service\ImdbMovieImporter;
+use Movifony\DTO\MovieDto;
+use Psr\Log\LoggerInterface;
+
 /**
  * Command that will import IMDB movies data from TSV file
  *
@@ -20,17 +24,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ImdbMovieImportCommand extends Command
 {
     /** @var string */
+    protected const MOVIE_FILENAME = 'data.tsv';
+
+    /** @var string */
     protected static $defaultName = 'movifony:import:movies:imdb';
 
     /** @var string */
-    protected $projectDir;
+    protected string $projectDir;
 
-    protected const MOVIE_FILENAME = 'title.akas.tsv';
+    /** @var ImdbMovieImporter */
+    protected ImdbMovieImporter $imdbMovieImporter;
 
-    public function __construct(string $name = null, string $projectDir)
+    // /** @var LoggerInterface */
+    // protected $loggerInterface;
+
+    public function __construct(string $name = null, string $projectDir, ImdbMovieImporter $imdbMovieImporter)
     {
         parent::__construct($name);
         $this->projectDir = $projectDir;
+        $this->imdbMovieImporter = $imdbMovieImporter;
+
     }
 
     /**
@@ -50,15 +63,17 @@ class ImdbMovieImportCommand extends Command
         $records = $csv->getRecords();
 
         foreach ($records as $record) {
-
+            $movieDto = new MovieDto($record['title']);
+            $movie = $this->imdbMovieImporter->process($movieDto);
             // injecter l'importer IMDB via l'injection de dépendances
             // importer un record
 
             // read  (array) array => DTO
              // process () DTO => Movie
             // Import () => Doctrine ORM
-
-            $output->writeln("Processing movie with title: {$record['title']}");
+            dump($movie);
+            die();
+            // $output->writeln(print_r($movie));
         }
     }
 
