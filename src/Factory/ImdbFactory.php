@@ -20,6 +20,7 @@ class ImdbFactory
     {
         $newMovie = new ImdbMovie();
         $newMovie->setTitle($movieDto->getTitle());
+        $newMovie->setIdentifier($movieDto->getIdentifier());
         return $newMovie;
     }
 }
