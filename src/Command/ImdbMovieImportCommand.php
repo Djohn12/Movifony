@@ -103,7 +103,7 @@ class ImdbMovieImportCommand extends Command
      */
     public function importFile(array $record): bool
     {
-        $movieDto = new MovieDto($record['title']);
+        $movieDto = new MovieDto($record['title'], $record['titleId']);
         $movie = $this->imdbMovieImporter->process($movieDto);
         dump($movie);
         return $this->imdbMovieImporter->import($movie);
