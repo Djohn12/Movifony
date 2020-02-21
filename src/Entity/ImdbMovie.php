@@ -36,6 +36,29 @@ class ImdbMovie implements MovieInterface
     /**
      * @var string
      *
+     * @ORM\Column(name="identifier", type="string")
+     */
+    protected string $identifier;
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param string $identifier
+     */
+    public function setIdentifier(string $identifier): void
+    {
+        $this->identifier = $identifier;
+    }
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="title", type="string")
      */
     protected string $title;
