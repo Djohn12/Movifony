@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Movifony\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Movifony\Entity\MovieInterface;
 
 /**
  * Movie
